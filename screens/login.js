@@ -12,9 +12,12 @@ import {auth} from '../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 
 export default LoginScreen = ({ navigation }) => {
+
+    //Init states
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
+    //Effect to "log in", listens to auth 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             if(user) {
@@ -24,6 +27,7 @@ export default LoginScreen = ({ navigation }) => {
         return unsubscribe
     }, [])
 
+    //Handle singup, creates a user to firebase auth
     const handleSignup = () => {
         createUserWithEmailAndPassword(auth, email, password).then(userCreds => {
             const user = userCreds.user;
@@ -33,6 +37,7 @@ export default LoginScreen = ({ navigation }) => {
 
     }
 
+    //Handle login with email and password, other logins maybe added in the future?
     const handleLogin = () => {
         signInWithEmailAndPassword(auth, email, password).then(userCreds => {
             const user = userCreds.user;
@@ -42,6 +47,7 @@ export default LoginScreen = ({ navigation }) => {
 
     }
 
+    //Password reset handle, TODO: pop up to ask for email and change second param to input value!
     const handlePasswordReset = () => {
       sendPasswordResetEmail(auth, "joel.kallio@gmail.com")
     }

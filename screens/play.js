@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, Dimensions, Button } from "react-native";
 import React from "react";
 import QuestionComponent from "../components/questionComponent";
 
+//Logic/Data file for the "game"/quiz
 const PlayScreen = () => {
+
+	//Training Data
   const dummydata = [
     {
       q: "how many stuff in things?",
@@ -17,21 +20,24 @@ const PlayScreen = () => {
     },
   ];
 
+	//Init needed states, displayInfo = data rendered, listIndex for fetching new items.
   const [displayedInformation, setDisplayedInformation] = useState(
     dummydata[0]
   );
   const [listIndex, setListIndex] = useState(0);
 	const [gameOver, setGameOver] = useState(false)
-
+	
+	//Reset "gamestate" just incase
 	useEffect(() => {
 		setGameOver(false)
 	}, [])
 
+	//Effect to change questionComponent content
   useEffect(() => {
     setDisplayedInformation(dummydata[listIndex]);
   }, [listIndex]);
 
-  //Test function
+  //Gets next question, this func is passed to QuestionComponent and called when the user selects an item.
   const getNextQuestion = () => {
     
     if (listIndex < dummydata.length-1) {

@@ -10,6 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 //Init stacks
 const Stack = createNativeStackNavigator();
 
+//Home navigator, replaces the login screen when user authenticates.
 const HomeStack = () => {
   return (
     <Stack.Navigator initialRouteName='HomeScreen'>
