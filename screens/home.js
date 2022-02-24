@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { signOut } from 'firebase/auth';
 import {auth} from '../firebaseConfig';
 
-export default HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation}) => {
     const handleSignOut = () => {
         signOut(auth).then(() => {
             navigation.replace("Login")
@@ -14,7 +14,12 @@ export default HomeScreen = ({navigation}) => {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
-        <Text>HomeScreen!</Text>
+        <Text>Welcome to questionApp!</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={() => {navigation.navigate("PlayScreen")}} style={[styles.button, styles.buttonOutline]}>
+              <Text style={[styles.buttonText, styles.buttonOutlineText]}>Play</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleSignOut} style={[styles.button, styles.buttonOutline]}>
               <Text style={[styles.buttonText, styles.buttonOutlineText]}>Sign out</Text>
@@ -24,7 +29,7 @@ export default HomeScreen = ({navigation}) => {
     );
   }
 
-
+export default HomeScreen;
   const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',

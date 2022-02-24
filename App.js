@@ -4,10 +4,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/login';
 import HomeScreen from './screens/home';
+import PlayScreen from './screens/play';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-
+//Init stacks
 const Stack = createNativeStackNavigator();
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator initialRouteName='HomeScreen'>
+      <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+      <Stack.Screen name="PlayScreen" component={PlayScreen}/>
+    </Stack.Navigator>
+  )
+}
 
 function App() {
   return (
@@ -15,7 +25,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeStack} />
+        
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaProvider>

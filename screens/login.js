@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import {auth} from '../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 
 export default LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -42,6 +42,10 @@ export default LoginScreen = ({ navigation }) => {
 
     }
 
+    const handlePasswordReset = () => {
+      sendPasswordResetEmail(auth, "joel.kallio@gmail.com")
+    }
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.inputContainer}>
@@ -50,7 +54,11 @@ export default LoginScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput value={password} onChangeText={text => setPassword(text)} placeholder="Password" style={styles.textInput} secureTextEntry={true}/>
       </View>
-
+      
+      <TouchableOpacity onPress={handlePasswordReset} style={styles.resetText}>
+              <Text style={styles.resetText}>Forgot your password?</Text>
+      </TouchableOpacity>
+      
       <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleLogin} style={[styles.button, styles.buttonOutline]}>
               <Text style={[styles.buttonText, styles.buttonOutlineText]}>Login</Text>
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
       width: '60%',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 40,
+      marginTop: 30,
   },
   button: {
     backgroundColor: '#0782F9',
@@ -104,6 +112,11 @@ const styles = StyleSheet.create({
       marginTop: 5,
       borderWidth: 2,
 
+  },
+  resetText: {
+    marginTop: 5,
+    fontSize: 15,
+    color: 'blue'
   }
 
 });
