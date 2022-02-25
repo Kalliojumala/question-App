@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+
 import {
   API_KEY,
   AUTH_DOMAIN,
@@ -18,8 +19,6 @@ const firebaseConfig = {
   messagingSenderId: MESSAGER_ID,
   appId: APP_ID,
 };
-
-console.log(firebaseConfig);
 
 app = initializeApp(firebaseConfig);
 

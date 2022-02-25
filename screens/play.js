@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Button } from "react-native";
 import React from "react";
 import QuestionComponent from "../components/questionComponent";
-
+import GameOver from "../components/gameoverComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 //Logic/Data file for the "game"/quiz
 const PlayScreen = () => {
 
@@ -16,7 +17,7 @@ const PlayScreen = () => {
     {
       q: "how many things in stuff?",
       a: "16",
-      options: ["16", "toinen kyssäri", "22347", "1230"],
+      options: ["16", "toinen kyssäri", "22347",],
     },
   ];
 
@@ -26,7 +27,8 @@ const PlayScreen = () => {
   );
   const [listIndex, setListIndex] = useState(0);
 	const [gameOver, setGameOver] = useState(false)
-	
+	const [stats, setStats] = useState([])
+
 	//Reset "gamestate" just incase
 	useEffect(() => {
 		setGameOver(false)
@@ -47,15 +49,26 @@ const PlayScreen = () => {
     }
   };
 
+  if (gameOver) {
+    return (
+    <SafeAreaView style={styles.playContainer}>
+      <GameOver stats={stats}/>
+    </SafeAreaView>
+    )
+  }
   return (
-    <View style={styles.playContainer}>
+
+    
+    <SafeAreaView style={styles.playContainer}>
+    
       <QuestionComponent
         getNextQuestion={getNextQuestion}
         questionData={displayedInformation}
-				gameOver={gameOver}
+				setStats={setStats}
+        stats={stats}
         
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -65,5 +78,7 @@ const styles = StyleSheet.create({
   playContainer: {
     width: "100%",
     height: "100%",
+    flex: 1,
+    
   },
 });

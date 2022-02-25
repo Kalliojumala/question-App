@@ -7,9 +7,10 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import GameOver from "./gameoverComponent";
 
-const QuestionComponent = ({ questionData, getNextQuestion, gameOver }) => {
+
+
+const QuestionComponent = ({ questionData, getNextQuestion, setStats, stats }) => {
   const [buttonOutlines, setButtonOutlines] = useState([
     "white",
     "white",
@@ -18,7 +19,7 @@ const QuestionComponent = ({ questionData, getNextQuestion, gameOver }) => {
   ]);
   const [buttonState, setButtonState] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-
+  
 	//No mapping or listing questions so need to reset states when the question data changes.
   useEffect(() => {
     fadeAnim.setValue(0);
@@ -31,26 +32,35 @@ const QuestionComponent = ({ questionData, getNextQuestion, gameOver }) => {
     }).start();
   }, [questionData]);
 
+  
+
   //Function for handling user selection
   const handleAnswer = (userAnswer, i) => {
     //Disable buttons until next question
     setButtonState(true);
 
+    const correctAnswer = Boolean(userAnswer == questionData.a);
+    const statItem = {q:questionData.q, a:questionData.a, answer:userAnswer, correct: correctAnswer}
+    console.log(statItem);
+    
     //If correct turn selected block green
-    if (userAnswer == questionData.a) {
+    if (correctAnswer) {
       const recoloredButtons = matchColorArrays(i, i);
       setButtonOutlines(recoloredButtons);
+      setStats([...stats, statItem])
     }
     //If incorrect find correct a index, turn correct green, userguess/wrong answer red
     else {
       const correctIndex = questionData.options.indexOf(questionData.a);
       const recoloredButtons = matchColorArrays(i, correctIndex);
       setButtonOutlines(recoloredButtons);
+      setStats([...stats, statItem])
+      
     }
     //Short timeout for user to see correct answer before next question
     setTimeout(() => {
       getNextQuestion();
-    }, 2500);
+    }, 1000);
   };
 
   //Function return color arrays for handleAnswer
@@ -67,10 +77,9 @@ const QuestionComponent = ({ questionData, getNextQuestion, gameOver }) => {
   };
 
   //If out of questions return gameover screen.
-  if (gameOver) {
-    return <GameOver />;
-  }
+  
   return (
+    
     <ScrollView>
       <View style={styles.componentContainer}>
         <View style={styles.questionContainer}>
